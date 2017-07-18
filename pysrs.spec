@@ -1,5 +1,5 @@
 %define name pysrs
-%define version 0.30.7
+%define version 0.30.8
 %define release 1
 
 Summary: Python SRS (Sender Rewriting Scheme) library
@@ -37,8 +37,9 @@ python2.3 setup.py install --root=$RPM_BUILD_ROOT --record=INSTALLED_FILES
 mkdir -p $RPM_BUILD_ROOT/etc/mail
 cp pysrs.cfg $RPM_BUILD_ROOT/etc/mail
 cat >$RPM_BUILD_ROOT/etc/mail/no-srs-mailers <<'EOF'
-# no-srs-mailers - list domains we should not SRS encode for when we
+# no-srs-mailers - list hosts we should not SRS encode for when we
 # send to them.  E.g. primary MX servers for which we are a secondary.
+# NOTE - these are target hosts (e.g. RHS of mailertable), not target domains.
 #
 EOF
 mkdir -p $RPM_BUILD_ROOT/usr/share/sendmail-cf/hack
@@ -54,6 +55,8 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/sendmail-cf/hack/pysrs.m4
 
 %changelog
+* Wed Mar 24 2004 Stuart Gathman <stuart@bmsi.com> 0.30.8-1
+- Use HMAC instead of straight sha
 * Wed Mar 24 2004 Stuart Gathman <stuart@bmsi.com> 0.30.7-1
 - Pass SRS_DOMAIN to envfrom2srs.py
 * Wed Mar 24 2004 Stuart Gathman <stuart@bmsi.com> 0.30.6-4

@@ -1,6 +1,6 @@
 Metadata-Version: 1.0
 Name: pysrs
-Version: 0.30.7
+Version: 0.30.8
 Summary: Python SRS (Sender Rewriting Scheme) library
 Home-page: http://bmsi.com/python/pysrs.html
 Author: Stuart Gathman (Perl version by Shevek)
