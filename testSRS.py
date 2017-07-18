@@ -1,4 +1,7 @@
 # $Log: testSRS.py,v $
+# Revision 1.3  2004/03/25 00:02:21  stuart
+# FIXME where case smash test depends on day
+#
 # Revision 1.2  2004/03/22 18:20:00  stuart
 # Read config for sendmail maps from /etc/mail/pysrs.cfg
 #
@@ -68,7 +71,8 @@ class SRSTestCase(unittest.TestCase):
 
   def testCaseSmash(self):
     srs = SRS.new(secret='shhhh!',separator='+')
-    sender = 'mouse@fickle.com'
+    # FIXME: whether case smashing occurs depends on what day it is.
+    sender = 'mouse@fickle1.com'
     srsaddr = srs.forward(sender,'second.com')
     self.failUnless(srsaddr.startswith(SRS.SRS0TAG))
     self.case_smashed = False

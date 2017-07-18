@@ -1,12 +1,13 @@
 %define name pysrs
-%define version 0.30.6
-%define release 2
+%define version 0.30.7
+%define release 1
 
 Summary: Python SRS (Sender Rewriting Scheme) library
 Name: %{name}
 Version: %{version}
 Release: %{release}
 Source0: %{name}-%{version}.tar.gz
+#Patch0: %{name}-%{version}.patch
 License: Python license
 Group: Development/Libraries
 BuildRoot: %{_tmppath}/%{name}-buildroot
@@ -26,6 +27,7 @@ The Perl reference implementation is at http://www.anarres.org/projects/srs/
 
 %prep
 %setup
+#%patch -p1
 
 %build
 python2.3 setup.py build
@@ -52,6 +54,12 @@ rm -rf $RPM_BUILD_ROOT
 /usr/share/sendmail-cf/hack/pysrs.m4
 
 %changelog
+* Wed Mar 24 2004 Stuart Gathman <stuart@bmsi.com> 0.30.7-1
+- Pass SRS_DOMAIN to envfrom2srs.py
+* Wed Mar 24 2004 Stuart Gathman <stuart@bmsi.com> 0.30.6-4
+- Put SRS rewriting rule at end of EnvFromSMTP in pysrs.m4
+* Tue Mar 23 2004 Stuart Gathman <stuart@bmsi.com> 0.30.6-3
+- Fix regex for is_srs macro in pysrs.m4
 * Tue Mar 23 2004 Stuart Gathman <stuart@bmsi.com> 0.30.6-2
 - set alwaysrewrite=True in envfrom2srs.py since pysrs.m4 skips local domains
 - Incorporate m4 macro from Alain Knaff for cleaner sendmail support

@@ -11,20 +11,24 @@ divert(-1)
 #
 #
 divert(0)
-VERSIONID(`$Id: pysrs.m4,v 1.1 2004/03/23 20:36:26 stuart Exp $')
+VERSIONID(`$Id: pysrs.m4,v 1.6 2004/03/24 23:55:46 stuart Exp $')
+
+ifdef(`_MAILER_DEFINED_',,`errprint(`*** WARNING: MAILER() should be before HACK(pysrs)
+')')
+
+ifelse(defn(`_ARG_'),`',,`define(`SRS_DOMAIN',_ARG_)')
 
 LOCAL_CONFIG
 # Forward SRS program map
-Kmake_srs program /usr/bin/envfrom2srs.py
+Kmake_srs program /usr/bin/envfrom2srs.py ifdef(`SRS_DOMAIN',SRS_DOMAIN)
 # Reverse SRS program map
 Kreverse_srs program /usr/bin/srs2envtol.py
 
-ifdef(`_ARG_',define(`SRS_DOMAIN',_ARG_))
 # "To" address is SRS
 ifdef(`SRS_DOMAIN',`dnl
-Kis_srs regex CONCAT(`^<?SRS[01]=.*@',`SRS_DOMAIN',`\.?>?$')
+Kis_srs regex CONCAT(`^<?SRS[01][+=-].*@',`SRS_DOMAIN',`\.?>?$')
 ',`dnl
-Kis_srs regex ^<?SRS[01]=.*
+Kis_srs regex ^<?SRS[01][+=-].*
 ')dnl
 
 ifdef(`NO_SRS_FILE', `dnl
@@ -32,10 +36,12 @@ ifdef(`NO_SRS_FILE', `dnl
 F{noSrsMailers}-o NO_SRS_FILE %[^\#]
 ')dnl
 
-LOCAL_RULESETS
+MAILER_DEFINITIONS
 
 SEnvFromSMTP
 R$+		$: $>MakeSrs $1		make SRS
+
+LOCAL_RULESETS
 
 SIsSrs
 # Answers YES or NO whether the address in parameter is srs or not
@@ -74,5 +80,5 @@ R$*				$: $1 $>IsSrs $1
 R$* NO				$@ $1
 R$* YES				$@ $(reverse_srs $1 $)
 
-SParseLocal=98
+LOCAL_RULE_0
 R$*				$: $>ReverseSrs $1

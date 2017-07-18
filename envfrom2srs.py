@@ -61,4 +61,6 @@ if __name__ == "__main__":
   import sys
   # No funny business in our output, please
   sys.stderr.close()
-  print forward(sys.argv[1])
+  if len(sys.argv) > 2:
+    fwdomain = sys.argv[-2]
+  print forward(sys.argv[-1])
