@@ -1,14 +1,10 @@
 #!/usr/bin/python2.3
 
 import SRS
-import sys
 import re
 
-# No funny business in our output, please
-sys.stderr.close()
-
 secret = 'shhhh!'
-fwdomain = 'bmsi.com'
+fwdomain = 'mydomain.com'
 srs = SRS.new(secret=secret,maxage=8,hashlength=8)
 
 # Our original envelope-from may look funny on entry
@@ -18,6 +14,8 @@ srs = SRS.new(secret=secret,maxage=8,hashlength=8)
 #
 # We need to preprocess it some:
 def forward(old_address):
+  if old_address == '<@>':
+    return old_address
   use_address = re.compile(r'[<>]').sub('',old_address)
   use_address = re.compile(r'\.$').sub('',use_address)
 
@@ -39,4 +37,8 @@ def forward(old_address):
     except:
       return old_address
 
-print forward(sys.argv[1])
+if __name__ == "__main__":
+  import sys
+  # No funny business in our output, please
+  sys.stderr.close()
+  print forward(sys.argv[1])

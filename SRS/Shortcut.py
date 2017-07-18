@@ -55,7 +55,7 @@ without store, and shortcuts around all middleman resenders."""
   def parse(self,user):
     user,m = self.srs0re.subn('',user,1)
     # We should deal with SRS1 addresses here, just in case?
-    assert m, "Reverse address does not match %s." % srs.srs0re.pattern
+    assert m, "Reverse address does not match %s." % self.srs0re.pattern
 
     # The 4 here matches the number of fields we encoded above. If
     # there are more separators, then they belong in senduser anyway.

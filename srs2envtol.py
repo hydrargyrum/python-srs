@@ -1,12 +1,7 @@
 #!/usr/bin/python2.3
 
 import SRS
-import sys
 import re
-
-# No funny business in our output, please
-
-sys.stderr.close()
 
 secret = 'shhhh!'
 
@@ -36,4 +31,8 @@ def reverse(old_address):
     else:
       return old_address
 
-print reverse(sys.argv[1])
+if __name__ == "__main__":
+  import sys
+  # No funny business in our output, please
+  sys.stderr.close()
+  print reverse(sys.argv[1])

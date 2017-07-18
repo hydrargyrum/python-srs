@@ -67,6 +67,11 @@ class SRS(object):
     self.srs0re = re.compile(r'^%s[-+=]' % SRS0TAG,re.IGNORECASE)
     self.srs1re = re.compile(r'^%s[-+=]' % SRS1TAG,re.IGNORECASE)
 
+  def warn(self,*msg):
+    print 'WARNING:',
+    for i in msg: print i,
+    print
+
   def forward(self,sender,alias):
     """srsaddress = srs.forward(sender, alias)
 

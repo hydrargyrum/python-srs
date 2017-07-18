@@ -7,6 +7,7 @@ import socket
 class SRSTestCase(unittest.TestCase):
   
   def setUp(self):
+    # make sure user modified tag works
     Base.SRS0TAG = 'ALT0'
     Base.SRS1TAG = 'ALT1'
 
@@ -85,7 +86,7 @@ class SRSTestCase(unittest.TestCase):
     addr = srs.reverse(srsaddr)
     self.assertEqual(sender,addr)
 
-  def run(self): # handle two requests
+  def run2(self): # handle two requests
     self.daemon.server.handle_request()
     self.daemon.server.handle_request()
 
@@ -100,13 +101,22 @@ class SRSTestCase(unittest.TestCase):
   def testDaemon(self,sockname='/tmp/srsd',secret="shhhh!"):
     self.sockname = sockname
     self.daemon = Daemon(socket=sockname,secret=secret)
-    server = threading.Thread(target=self.run,name='srsd')
+    server = threading.Thread(target=self.run2,name='srsd')
     server.start()
     sender = 'mouse@orig.com'
     srsaddr = self.sendcmd('FORWARD',sender,'second.com')
     addr = self.sendcmd('REVERSE',srsaddr)
     server.join()
     self.assertEqual(sender,addr)
+
+  def testSendmailMap(self):
+    import envfrom2srs
+    import srs2envtol
+    orig = 'mickey<@mouse.com.>'
+    newaddr = envfrom2srs.forward('mickey<@mouse.com.>')
+    self.failUnless(newaddr.endswith('.>'))
+    addr2 = srs2envtol.reverse(newaddr)
+    self.assertEqual(addr2,orig)
 
 def suite(): return unittest.makeSuite(SRSTestCase,'test')
 

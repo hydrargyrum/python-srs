@@ -26,7 +26,7 @@ hash. This can and should be fixed.
 
 The database is not garbage collected."""
 
-  def __init__(self,database='/var/run/srs.db',hashlength=20,*args,**kw):
+  def __init__(self,database='/var/run/srs.db',hashlength=24,*args,**kw):
     Base.SRS.__init__(self,hashlength=hashlength,*args,**kw)
     assert database, "No database specified for SRS.DB"
     self.dbm = bsddb.btopen(database,'c')
