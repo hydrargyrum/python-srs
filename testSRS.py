@@ -1,6 +1,8 @@
 import unittest
 from SRS import *
 import SRS.Base as Base
+import threading
+import socket
 
 class SRSTestCase(unittest.TestCase):
   
@@ -81,6 +83,29 @@ class SRSTestCase(unittest.TestCase):
     addr = srs.reverse(srsaddr1)
     self.assertEqual(srsaddr,addr)
     addr = srs.reverse(srsaddr)
+    self.assertEqual(sender,addr)
+
+  def run(self): # handle two requests
+    self.daemon.server.handle_request()
+    self.daemon.server.handle_request()
+
+  def sendcmd(self,*args):
+    sock = socket.socket(socket.AF_UNIX,socket.SOCK_STREAM)
+    sock.connect(self.sockname)
+    sock.send(' '.join(args)+'\n')
+    res = sock.recv(128).strip()
+    sock.close()
+    return res
+
+  def testDaemon(self,sockname='/tmp/srsd',secret="shhhh!"):
+    self.sockname = sockname
+    self.daemon = Daemon(socket=sockname,secret=secret)
+    server = threading.Thread(target=self.run,name='srsd')
+    server.start()
+    sender = 'mouse@orig.com'
+    srsaddr = self.sendcmd('FORWARD',sender,'second.com')
+    addr = self.sendcmd('REVERSE',srsaddr)
+    server.join()
     self.assertEqual(sender,addr)
 
 def suite(): return unittest.makeSuite(SRSTestCase,'test')
