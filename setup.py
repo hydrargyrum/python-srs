@@ -23,4 +23,5 @@ setup(
         author_email = 'stuart@bmsi.com',
         url = 'http://bmsi.com/python/srs.html',
         packages = ['SRS'],
+	scripts = ['envfrom2srs.py','srs2envtol.py']
 )
