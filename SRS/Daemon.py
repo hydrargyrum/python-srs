@@ -1,4 +1,7 @@
 # $Log: Daemon.py,v $
+# Revision 1.2  2004/03/23 18:46:38  stuart
+# support commandline args for key
+#
 # Revision 1.1.1.1  2004/03/19 05:23:13  stuart
 # Import to CVS
 #
@@ -75,6 +78,13 @@ and ensure the secret file is not empty."""
   def run(self):
     self.server.serve_forever()
 
-if __name__ == '__main__':
-  server = Daemon(secret='shhh!')
+def main(args):
+  from getopt import getopt
+  opts,args = getopt(args,'',['secret=','secretfile='])
+  kw = dict([(opt[2:],val) for opt,val in opts])
+  server = Daemon(**kw)
   server.run()
+
+if __name__ == '__main__':
+  import sys
+  main(sys.argv[1:])

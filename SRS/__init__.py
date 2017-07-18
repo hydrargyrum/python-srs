@@ -1,4 +1,7 @@
 # $Log: __init__.py,v $
+# Revision 1.3  2004/03/23 20:36:39  stuart
+# Version 0.30.6
+#
 # Revision 1.2  2004/03/22 18:20:19  stuart
 # Missing import
 #
@@ -21,7 +24,7 @@
 # This program is free software; you can redistribute it and/or modify
 # it under the same terms as Python itself.
 
-__version__ = '0.30.5'
+__version__ = '0.30.6'
 
 __all__= [
   'Base',

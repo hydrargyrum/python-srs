@@ -21,7 +21,8 @@ srs = SRS.new(
   secret=cp.get('srs','secret'),
   maxage=cp.getint('srs','maxage'),
   hashlength=cp.getint('srs','hashlength'),
-  separator=cp.get('srs','separator')
+  separator=cp.get('srs','separator'),
+  alwaysrewrite=True	# pysrs.m4 can skip calling us for local domains
 )
 fwdomain = cp.get('srs','fwdomain')
 del cp

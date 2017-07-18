@@ -22,7 +22,7 @@ ALT="Viewable With Any Browser" BORDER="0"></A>
 <h4 align=center>
 This web page is written by Stuart D. Gathman<br>and<br>sponsored by
 <a href="http://www.bmsi.com">Business Management Systems, Inc.</a> <br>
-Last updated Mar 22, 2004</h4>
+Last updated Mar 23, 2004</h4>
 
 <p>
 This is a <a href="http://www.python.org/">Python</a> implementation of
@@ -32,16 +32,54 @@ It is a fairly direct translation of the
 by Shevek.  It includes a test suite, which currently checks four
 levels of forwarding and subsequent reversal for the Guarded, DB, and
 Reversible implementations.
-<p>
-The package includes scripts to be used as sendmail maps.  See
+<ul>
+<li>This package includes scripts to be used as sendmail maps.  See
 <a href="http://asarian-host.net/srs/sendmailsrs.htm">sendmail integration</a>
 for instructions on incorporating SRS into <code>sendmail.cf</code>,
 substituting <code>envfrom2srs.py</code> and <code>srs2envtol.py</code>
 for the perl scripts.
+<li>SRS.Daemon.Daemon() provides a simple socket daemon suitable
+for use with the Exim mailer.
+</ul>
+
+<h3> Sendmail integration </h3>
+
+Add the following lines to your /etc/mail/sendmail.mc (RedHat /
+Fedora):
+<pre>
+#
+# File listing domains we do not SRS encode for when sending to
+#
+define(`NO_SRS_FILE',`/etc/mail/no-srs-mailers')dnl
+#
+# Uncomment the following if you do not wish to SRS encode mail from
+# local domains.  Only non-local domains need to be SRS encoded to
+# satisfy SPF.  But encoding all outgoing mail can detect bounce forgeries.
+#
+dnl define(`NO_SRS_FROM_LOCAL')dnl
+#
+HACK(`pysrs',`mydomain.com')dnl
+</pre>
+
+<ul>
+<li>       NO_SRS_FILE is the path of a file containing the recipient
+        MTA's for which you won't do SRS (typically, primary MXes for
+        who you are secondary). Just leave this away, if you are
+        secondary for nobody. The no-srs-mailers file is a simple text
+        file which has one recipient MTA per line.
+<li>       SRS_DOMAIN is the domain that your SRS addresses bear (i.e. if
+        your SRS addresses are srs0=mumble-jumble-toto@mydomain.com,
+        then the SRS_DOMAIN domain is mydomain.com)
+<li>       NO_SRS_FROM_LOCAL : if this is set (define line present), then
+        no SRS is done if sender is local (i.e. his domain is in 
+        /etc/mail/local-host-names)
+</ul>
 
 <h3>Downloads</h3>
 
 <menu>
+<li> <a href="pysrs-0.30.6.tar.gz">pysrs-0.30.6.tar.gz</a><br>
+Sendmail m4 hack (local feature) thanks to Alain Knaff.
 <li> <a href="pysrs-0.30.5.tar.gz">pysrs-0.30.5.tar.gz</a><br>
 Add missing import needed by <code>SRS.new()</code>.
 Make sendmail map scripts use <code>/etc/mail/pysrs.cfg</code>
