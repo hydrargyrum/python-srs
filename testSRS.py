@@ -1,4 +1,10 @@
-# $Log$
+# $Log: testSRS.py,v $
+# Revision 1.2  2004/03/22 18:20:00  stuart
+# Read config for sendmail maps from /etc/mail/pysrs.cfg
+#
+# Revision 1.1.1.1  2004/03/19 05:23:13  stuart
+# Import to CVS
+#
 #
 # AUTHOR
 # Shevek
@@ -31,6 +37,9 @@ class SRSTestCase(unittest.TestCase):
     SRS.SRS0TAG = 'ALT0'
     SRS.SRS1TAG = 'ALT1'
 
+  def warn(self,*msg):
+    self.case_smashed = True
+
   # There and back again
   def testGuarded(self):
     srs = Guarded()
@@ -55,6 +64,17 @@ class SRSTestCase(unittest.TestCase):
     addr = srs.reverse(srsaddr1)
     self.assertEqual(srsaddr,addr)
     addr = srs.reverse(srsaddr)
+    self.assertEqual(sender,addr)
+
+  def testCaseSmash(self):
+    srs = SRS.new(secret='shhhh!',separator='+')
+    sender = 'mouse@fickle.com'
+    srsaddr = srs.forward(sender,'second.com')
+    self.failUnless(srsaddr.startswith(SRS.SRS0TAG))
+    self.case_smashed = False
+    srs.warn = self.warn
+    addr = srs.reverse(srsaddr.lower())
+    self.failUnless(self.case_smashed)	# check that warn was called
     self.assertEqual(sender,addr)
 
   def testReversible(self):
@@ -132,11 +152,17 @@ class SRSTestCase(unittest.TestCase):
   def testSendmailMap(self):
     import envfrom2srs
     import srs2envtol
-    orig = 'mickey<@mouse.com.>'
-    newaddr = envfrom2srs.forward('mickey<@mouse.com.>')
+    orig = 'mickey<@orig.com.>'
+    newaddr = envfrom2srs.forward(orig)
     self.failUnless(newaddr.endswith('.>'))
     addr2 = srs2envtol.reverse(newaddr)
     self.assertEqual(addr2,orig)
+    # check case smashing by braindead mailers
+    self.case_smashed = False
+    srs2envtol.srs.warn = self.warn
+    addr2 = srs2envtol.reverse(newaddr.lower())
+    self.assertEqual(addr2,orig)
+    self.failUnless(self.case_smashed)
 
 def suite(): return unittest.makeSuite(SRSTestCase,'test')
 

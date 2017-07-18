@@ -2,11 +2,30 @@
 
 import SRS
 import re
+from ConfigParser import ConfigParser, DuplicateSectionError
 
-secret = 'shhhh!'
+# get SRS parameters from milter configuration
+cp = ConfigParser({
+  'secret': 'shhhh!',
+  'maxage': '8',
+  'hashlength': '8',
+  'separator': '='
+})
+cp.read(["/etc/mail/pysrs.cfg"])
+try:
+  cp.add_section('srs')
+except DuplicateSectionError:
+  pass
+srs = SRS.new(
+  secret=cp.get('srs','secret'),
+  maxage=cp.getint('srs','maxage'),
+  hashlength=cp.getint('srs','hashlength'),
+  separator=cp.get('srs','separator')
+)
+srs.warn = lambda x: x	# ignore case smash warning
+del cp
 
 def reverse(old_address):
-  srs = SRS.new(secret=secret,maxage=8,hashlength=8)
 
   # Munge ParseLocal recipient in the same manner as required
   # in EnvFromSMTP.

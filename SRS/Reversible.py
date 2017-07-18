@@ -1,4 +1,7 @@
-# $Log$
+# $Log: Reversible.py,v $
+# Revision 1.1.1.1  2004/03/19 05:23:13  stuart
+# Import to CVS
+#
 #
 # AUTHOR
 # Shevek

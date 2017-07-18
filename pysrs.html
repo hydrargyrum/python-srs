@@ -22,7 +22,7 @@ ALT="Viewable With Any Browser" BORDER="0"></A>
 <h4 align=center>
 This web page is written by Stuart D. Gathman<br>and<br>sponsored by
 <a href="http://www.bmsi.com">Business Management Systems, Inc.</a> <br>
-Last updated Mar 17, 2004</h4>
+Last updated Mar 22, 2004</h4>
 
 <p>
 This is a <a href="http://www.python.org/">Python</a> implementation of
@@ -32,10 +32,22 @@ It is a fairly direct translation of the
 by Shevek.  It includes a test suite, which currently checks four
 levels of forwarding and subsequent reversal for the Guarded, DB, and
 Reversible implementations.
+<p>
+The package includes scripts to be used as sendmail maps.  See
+<a href="http://asarian-host.net/srs/sendmailsrs.htm">sendmail integration</a>
+for instructions on incorporating SRS into <code>sendmail.cf</code>,
+substituting <code>envfrom2srs.py</code> and <code>srs2envtol.py</code>
+for the perl scripts.
 
 <h3>Downloads</h3>
 
 <menu>
+<li> <a href="pysrs-0.30.5.tar.gz">pysrs-0.30.5.tar.gz</a><br>
+Add missing import needed by <code>SRS.new()</code>.
+Make sendmail map scripts use <code>/etc/mail/pysrs.cfg</code>
+for configuration.  This allows editing only one file to change config.  This
+also supports additional software needing a matching SRS config such as 
+<a href="milter.html">Python milter</a>.
 <li> <a href="pysrs-0.30.4.tar.gz">pysrs-0.30.4.tar.gz</a><br>
 Move global options to package module.  Rename Base.SRS to Base.Base.
 Do not import classes into package module.  Sorry if this breaks your

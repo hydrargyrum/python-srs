@@ -2,10 +2,29 @@
 
 import SRS
 import re
+from ConfigParser import ConfigParser, DuplicateSectionError
 
-secret = 'shhhh!'
-fwdomain = 'mydomain.com'
-srs = SRS.new(secret=secret,maxage=8,hashlength=8)
+# get SRS parameters from milter configuration
+cp = ConfigParser({
+  'secret': 'shhhh!',
+  'maxage': '8',
+  'hashlength': '8',
+  'fwdomain': 'mydomain.com',
+  'separator': '='
+})
+cp.read(["/etc/mail/pysrs.cfg"])
+try:
+  cp.add_section('srs')
+except DuplicateSectionError:
+  pass
+srs = SRS.new(
+  secret=cp.get('srs','secret'),
+  maxage=cp.getint('srs','maxage'),
+  hashlength=cp.getint('srs','hashlength'),
+  separator=cp.get('srs','separator')
+)
+fwdomain = cp.get('srs','fwdomain')
+del cp
 
 # Our original envelope-from may look funny on entry
 # of this Ruleset:

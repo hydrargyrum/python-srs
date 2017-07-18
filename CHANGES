@@ -1,1 +1,4 @@
+0.30.5	Make sendmail maps use config file in /etc/mail/pysrs.cfg,
+	so there is only only source to modify to change options.
+	Add missing import for SRS.new()
 0.30.4	Move global options to package module.  Rename Base.SRS to Base.Base.

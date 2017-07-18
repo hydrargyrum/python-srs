@@ -1,4 +1,10 @@
-# $Log$
+# $Log: __init__.py,v $
+# Revision 1.2  2004/03/22 18:20:19  stuart
+# Missing import
+#
+# Revision 1.1.1.1  2004/03/19 05:23:13  stuart
+# Import to CVS
+#
 #
 # AUTHOR
 # Shevek
@@ -15,7 +21,7 @@
 # This program is free software; you can redistribute it and/or modify
 # it under the same terms as Python itself.
 
-__version__ = '0.30.4'
+__version__ = '0.30.5'
 
 __all__= [
   'Base',
@@ -45,7 +51,7 @@ SRSMAXAGE = 21
 #from Reversible import Reversible
 #from Daemon import Daemon
 #from DB import DB
+import Guarded
 
 def new(secret=None,*args,**kw):
   return Guarded.Guarded(secret,*args,**kw)
-

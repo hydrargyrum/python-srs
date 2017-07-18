@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 # 
-# $Id: setup.py,v 1.4 2002/05/06 06:32:07 anthonybaxter Exp $
+# $Id: setup.py,v 1.2 2004/03/19 05:30:11 stuart Exp $
 #
 
 import sys,os
@@ -29,6 +29,7 @@ The Perl reference implementation is at http://www.anarres.org/projects/srs/
         url = 'http://bmsi.com/python/pysrs.html',
         packages = ['SRS'],
 	scripts = ['envfrom2srs.py','srs2envtol.py'],
+	keywords = ['SPF','SRS'],
 	classifiers = [
 	  'Development Status :: 4 - Beta',
 	  'Environment :: No Input/Output (Daemon)',

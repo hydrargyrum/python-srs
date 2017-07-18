@@ -1,4 +1,10 @@
-# $Log$
+# $Log: Base.py,v $
+# Revision 1.2  2004/03/22 18:20:19  stuart
+# Missing import
+#
+# Revision 1.1.1.1  2004/03/19 05:23:13  stuart
+# Import to CVS
+#
 #
 # AUTHOR
 # Shevek
@@ -20,6 +26,7 @@ import sha
 import base64
 import re
 import SRS
+import sys
 
 BASE26 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 BASE32 = BASE26 + '234567'
@@ -63,9 +70,7 @@ class Base(object):
     self.srs1re = re.compile(r'^%s[-+=]' % SRS.SRS1TAG,re.IGNORECASE)
 
   def warn(self,*msg):
-    print 'WARNING:',
-    for i in msg: print i,
-    print
+    print >>sys.stderr,'WARNING: ',' '.join(msg)
 
   def forward(self,sender,alias):
     """srsaddress = srs.forward(sender, alias)
