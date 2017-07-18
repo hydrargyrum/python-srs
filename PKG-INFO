@@ -1,0 +1,11 @@
+Metadata-Version: 1.0
+Name: pysrs
+Version: 0.30
+Summary: Python SRS library
+Home-page: http://bmsi.com/python/srs.html
+Author: Shevek (Perl version) and Stuart Gathman
+Author-email: stuart@bmsi.com
+License: Python license
+Description: Python SRS library:
+        
+Platform: UNKNOWN
