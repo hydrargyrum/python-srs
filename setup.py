@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 # 
-# $Id: setup.py,v 1.2 2004/03/19 05:30:11 stuart Exp $
+# $Id: setup.py,v 1.4 2004/08/30 16:14:04 stuart Exp $
 #
 
 import sys,os
@@ -27,6 +27,7 @@ The Perl reference implementation is at http://www.anarres.org/projects/srs/
         author = 'Stuart Gathman (Perl version by Shevek)', 
         author_email = 'stuart@bmsi.com',
         url = 'http://bmsi.com/python/pysrs.html',
+	py_modules = ['SocketMap'],
         packages = ['SRS'],
 	scripts = ['envfrom2srs.py','srs2envtol.py'],
 	keywords = ['SPF','SRS'],
