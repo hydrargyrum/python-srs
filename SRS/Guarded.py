@@ -1,5 +1,22 @@
+# $Log$
+#
+# AUTHOR
+# Shevek
+# CPAN ID: SHEVEK
+# cpan@anarres.org
+# http://www.anarres.org/projects/
+#
+# Translated to Python by stuart@bmsi.com
+# http://bmsi.com/python/milter.html
+#
+# Portions Copyright (c) 2004 Shevek. All rights reserved.
+# Portions Copyright (c) 2004 Business Management Systems. All rights reserved.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the same terms as Python itself.
+
 import re
-import Base
+import SRS
 from Shortcut import Shortcut
 
 class Guarded(Shortcut):
@@ -18,7 +35,7 @@ See Mail::SRS for details of the standard SRS subclass interface.
 This module provides the methods compile() and parse(). It operates
 without store, and guards against gaming the shortcut system."""
   def __init__(self,*args,**kw):
-    self.srs0rek = re.compile(r'^%s(?=[-+=])' % Base.SRS0TAG,re.IGNORECASE)
+    self.srs0rek = re.compile(r'^%s(?=[-+=])' % SRS.SRS0TAG,re.IGNORECASE)
     Shortcut.__init__(self,*args,**kw)
 
   def compile(self,sendhost,senduser):
@@ -38,33 +55,33 @@ without store, and guards against gaming the shortcut system."""
       # actually process or generate it.
 
       # hash, srshost, srsuser
-      undef,srshost,srsuser = senduser.split(Base.SRSSEP,2)
+      undef,srshost,srsuser = senduser.split(SRS.SRSSEP,2)
 
       hash = self.hash_create(srshost,srsuser)
-      return Base.SRS1TAG + self.separator + \
-		Base.SRSSEP.join((hash,srshost,srsuser))
+      return SRS.SRS1TAG + self.separator + \
+		SRS.SRSSEP.join((hash,srshost,srsuser))
 
     senduser,m = self.srs0rek.subn('',senduser,1)
     if m:
       hash = self.hash_create(sendhost, senduser)
-      return Base.SRS1TAG + self.separator + \
-		Base.SRSSEP.join((hash,sendhost,senduser))
+      return SRS.SRS1TAG + self.separator + \
+		SRS.SRSSEP.join((hash,sendhost,senduser))
 
     return Shortcut.compile(self,sendhost,senduser)
 
   def parse(self,user):
     user,m = self.srs1re.subn('',user,1)
     if m:
-      hash,srshost,srsuser = user.split(Base.SRSSEP, 2)[-3:]
+      hash,srshost,srsuser = user.split(SRS.SRSSEP, 2)[-3:]
       if hash.find('.') >= 0:
         assert self.allowunsafesrs, \
 	  "Hashless SRS1 address received when AllowUnsafeSrs is not set"
 	# Reconstruct the parameters as they were in the old format.
-	srsuser = srshost + Base.SRSSEP + srsuser
+	srsuser = srshost + SRS.SRSSEP + srsuser
 	srshost = hash
       else:
 	assert srshost and srsuser, "Invalid SRS1 address"
 	assert self.hash_verify(hash,srshost,srsuser), "Invalid hash"
-      return srshost, Base.SRS0TAG + srsuser
+      return srshost, SRS.SRS0TAG + srsuser
 
     return Shortcut.parse(self,user)

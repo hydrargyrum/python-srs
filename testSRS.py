@@ -1,6 +1,26 @@
+# $Log$
+#
+# AUTHOR
+# Shevek
+# CPAN ID: SHEVEK
+# cpan@anarres.org
+# http://www.anarres.org/projects/
+#
+# Translated to Python by stuart@bmsi.com
+# http://bmsi.com/python/milter.html
+#
+# Portions Copyright (c) 2004 Shevek. All rights reserved.
+# Portions Copyright (c) 2004 Business Management Systems. All rights reserved.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the same terms as Python itself.
+
 import unittest
-from SRS import *
-import SRS.Base as Base
+from SRS.Guarded import Guarded
+from SRS.DB import DB
+from SRS.Reversible import Reversible
+from SRS.Daemon import Daemon
+import SRS
 import threading
 import socket
 
@@ -8,8 +28,8 @@ class SRSTestCase(unittest.TestCase):
   
   def setUp(self):
     # make sure user modified tag works
-    Base.SRS0TAG = 'ALT0'
-    Base.SRS1TAG = 'ALT1'
+    SRS.SRS0TAG = 'ALT0'
+    SRS.SRS1TAG = 'ALT1'
 
   # There and back again
   def testGuarded(self):
@@ -23,13 +43,13 @@ class SRSTestCase(unittest.TestCase):
     self.assertEqual(srsaddr,sender)
     srsaddr = srs.forward(sender,'second.com')
     #print srsaddr
-    self.failUnless(srsaddr.startswith(Base.SRS0TAG))
+    self.failUnless(srsaddr.startswith(SRS.SRS0TAG))
     srsaddr1 = srs.forward(srsaddr,'third.com')
     #print srsaddr1
-    self.failUnless(srsaddr1.startswith(Base.SRS1TAG))
+    self.failUnless(srsaddr1.startswith(SRS.SRS1TAG))
     srsaddr2 = srs.forward(srsaddr1,'fourth.com')
     #print srsaddr2
-    self.failUnless(srsaddr2.startswith(Base.SRS1TAG))
+    self.failUnless(srsaddr2.startswith(SRS.SRS1TAG))
     addr = srs.reverse(srsaddr2)
     self.assertEqual(srsaddr,addr)
     addr = srs.reverse(srsaddr1)
@@ -48,13 +68,13 @@ class SRSTestCase(unittest.TestCase):
     self.assertEqual(srsaddr,sender)
     srsaddr = srs.forward(sender,'second.com')
     #print srsaddr
-    self.failUnless(srsaddr.startswith(Base.SRS0TAG))
+    self.failUnless(srsaddr.startswith(SRS.SRS0TAG))
     srsaddr1 = srs.forward(srsaddr,'third.com')
     #print srsaddr1
-    self.failUnless(srsaddr1.startswith(Base.SRS0TAG))
+    self.failUnless(srsaddr1.startswith(SRS.SRS0TAG))
     srsaddr2 = srs.forward(srsaddr1,'fourth.com')
     #print srsaddr2
-    self.failUnless(srsaddr2.startswith(Base.SRS0TAG))
+    self.failUnless(srsaddr2.startswith(SRS.SRS0TAG))
     addr = srs.reverse(srsaddr2)
     self.assertEqual(srsaddr1,addr)
     addr = srs.reverse(srsaddr1)
@@ -72,13 +92,13 @@ class SRSTestCase(unittest.TestCase):
     self.assertEqual(srsaddr,sender)
     srsaddr = srs.forward(sender,'second.com')
     #print srsaddr
-    self.failUnless(srsaddr.startswith(Base.SRS0TAG))
+    self.failUnless(srsaddr.startswith(SRS.SRS0TAG))
     srsaddr1 = srs.forward(srsaddr,'third.com')
     #print srsaddr1
-    self.failUnless(srsaddr1.startswith(Base.SRS0TAG))
+    self.failUnless(srsaddr1.startswith(SRS.SRS0TAG))
     srsaddr2 = srs.forward(srsaddr1,'fourth.com')
     #print srsaddr2
-    self.failUnless(srsaddr2.startswith(Base.SRS0TAG))
+    self.failUnless(srsaddr2.startswith(SRS.SRS0TAG))
     addr = srs.reverse(srsaddr2)
     self.assertEqual(srsaddr1,addr)
     addr = srs.reverse(srsaddr1)

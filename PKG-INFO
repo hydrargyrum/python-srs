@@ -1,11 +1,27 @@
 Metadata-Version: 1.0
 Name: pysrs
-Version: 0.30.3
-Summary: Python SRS library
-Home-page: http://bmsi.com/python/srs.html
-Author: Shevek (Perl version) and Stuart Gathman
+Version: 0.30.4
+Summary: Python SRS (Sender Rewriting Scheme) library
+Home-page: http://bmsi.com/python/pysrs.html
+Author: Stuart Gathman (Perl version by Shevek)
 Author-email: stuart@bmsi.com
 License: Python license
-Description: Python SRS library:
+Description: Python SRS (Sender Rewriting Scheme) library.
+        As SPF is implemented, mail forwarders must rewrite envfrom for domains
+        they are not authorized to send from.
+        
+        See http://spf.pobox.com/srs.html for details.
+        The Perl reference implementation is at http://www.anarres.org/projects/srs/
         
 Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: No Input/Output (Daemon)
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: OSI Approved :: Python License (CNRI Python License)
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Topic :: Communications :: Email
+Classifier: Topic :: Communications :: Email :: Mail Transport Agents
+Classifier: Topic :: Software Development :: Libraries :: Python Modules

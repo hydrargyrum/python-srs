@@ -1,4 +1,21 @@
-import Base
+# $Log$
+#
+# AUTHOR
+# Shevek
+# CPAN ID: SHEVEK
+# cpan@anarres.org
+# http://www.anarres.org/projects/
+#
+# Translated to Python by stuart@bmsi.com
+# http://bmsi.com/python/milter.html
+#
+# Portions Copyright (c) 2004 Shevek. All rights reserved.
+# Portions Copyright (c) 2004 Business Management Systems. All rights reserved.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the same terms as Python itself.
+
+import SRS
 from Shortcut import Shortcut
 
 class Reversible(Shortcut):
@@ -17,5 +34,5 @@ without store."""
     # Note that there are 4 fields here and that sendhost may
     # not contain a + sign. Therefore, we do not need to escape
     # + signs anywhere in order to reverse this transformation.
-    return Base.SRS0TAG + self.separator + \
-	Base.SRSSEP.join((hash,timestamp,sendhost,senduser))
+    return SRS.SRS0TAG + self.separator + \
+	SRS.SRSSEP.join((hash,timestamp,sendhost,senduser))

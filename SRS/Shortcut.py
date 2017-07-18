@@ -1,6 +1,24 @@
-import Base
+# $Log$
+#
+# AUTHOR
+# Shevek
+# CPAN ID: SHEVEK
+# cpan@anarres.org
+# http://www.anarres.org/projects/
+#
+# Translated to Python by stuart@bmsi.com
+# http://bmsi.com/python/milter.html
+#
+# Portions Copyright (c) 2004 Shevek. All rights reserved.
+# Portions Copyright (c) 2004 Business Management Systems. All rights reserved.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the same terms as Python itself.
 
-class Shortcut(Base.SRS):
+import SRS
+from Base import Base
+
+class Shortcut(Base):
 
   """SRS.Shortcut - A shortcutting Sender Rewriting Scheme
 
@@ -28,7 +46,7 @@ without store, and shortcuts around all middleman resenders."""
       # We just do the split because this was hashed with someone
       # else's secret key and we can't check it.
       # hash, timestamp, host, user
-      undef,undef,sendhost,senduser = senduser.split(Base.SRSSEP,3)
+      undef,undef,sendhost,senduser = senduser.split(SRS.SRSSEP,3)
       # We should do a sanity check. After all, it might NOT be
       # an SRS address, unlikely though that is. We are in the
       # presence of malicious agents. However, this code is
@@ -39,7 +57,7 @@ without store, and shortcuts around all middleman resenders."""
 	# This should never be hit in practice. It would be bad.
 	# Introduce compatibility with the guarded format?
 	# SRSHOST, hash, timestamp, host, user
-	sendhost,senduser = senduser.split(Base.SRSSEP,5)[-2:]
+	sendhost,senduser = senduser.split(SRS.SRSSEP,5)[-2:]
 
     timestamp = self.timestamp_create()
 
@@ -49,8 +67,8 @@ without store, and shortcuts around all middleman resenders."""
     # not contain a valid separator. Therefore, we do not need to
     # escape separators anywhere in order to reverse this
     # transformation.
-    return Base.SRS0TAG + self.separator + \
-    	Base.SRSSEP.join((hash,timestamp,sendhost,senduser))
+    return SRS.SRS0TAG + self.separator + \
+    	SRS.SRSSEP.join((hash,timestamp,sendhost,senduser))
 
   def parse(self,user):
     user,m = self.srs0re.subn('',user,1)
@@ -59,7 +77,7 @@ without store, and shortcuts around all middleman resenders."""
 
     # The 4 here matches the number of fields we encoded above. If
     # there are more separators, then they belong in senduser anyway.
-    hash,timestamp,sendhost,senduser = user.split(Base.SRSSEP,3)[-4:]
+    hash,timestamp,sendhost,senduser = user.split(SRS.SRSSEP,3)[-4:]
     # Again, this must match as above.
     assert self.hash_verify(hash,timestamp,sendhost,senduser), "Invalid hash"
 

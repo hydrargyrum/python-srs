@@ -1,3 +1,20 @@
+# $Log$
+#
+# AUTHOR
+# Shevek
+# CPAN ID: SHEVEK
+# cpan@anarres.org
+# http://www.anarres.org/projects/
+#
+# Translated to Python by stuart@bmsi.com
+# http://bmsi.com/python/milter.html
+#
+# Portions Copyright (c) 2004 Shevek. All rights reserved.
+# Portions Copyright (c) 2004 Business Management Systems. All rights reserved.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the same terms as Python itself.
+
 from Guarded import Guarded
 import os
 import os.path
